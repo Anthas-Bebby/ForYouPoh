@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Tracker</title>
+    <style>
+        /* Styling for the body */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://i.pinimg.com/1200x/80/f6/d3/80f6d3055d6b6a61d7b7b5573aac619d.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Additional styles for headings and the card container */
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            width: 90%;
+            max-width: 600px;
+            border: 5px solid;
+            animation: rgb-border 3s infinite linear;
+            transition: all 0.5s ease-in-out;
+        }
+
+        @keyframes rgb-border {
+            0% { border-color: #ff0000; }
+            33% { border-color: #00ff00; }
+            66% { border-color: #0000ff; }
+            100% { border-color: #ff0000; }
+        }
+
+        .name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .circle.boy {
+            background-color: blue;
+        }
+
+        .circle.girl {
+            background-color: pink;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .present {
+            background-color: #4CAF50;
+            color: white;
+            flex: 2;
+            margin-right: 15px;
+        }
+
+        .late {
+            background-color: #FFA500;
+            color: white;
+            flex: 1;
+        }
+
+        .absent {
+            background-color: #ff4747;
+            color: white;
+            flex: 1;
+        }
+
+        /* Results and buttons styling */
+        .results {
+            margin-top: 20px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            resize: none;
+            overflow-y: auto;
+        }
+
+        .btn-copy, .btn-redo {
+            margin-top: 10px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-redo {
+            background-color: #ff8c00;
+        }
+
+        .date-time {
+            font-size: 1.2em;
+            color: #cccccc;
+            margin-top: 10px;
+        }
+
+        .late-students-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .late-student-item {
+            margin: 10px;
+            background-color: rgba(255, 165, 0, 0.6);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .late-student-item button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background-color: #ff4747;
+            color: white;
+            font-size: 1em;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .late-student-item button:hover {
+            background-color: #e63946;
+            transform: scale(1.05);
+        }
+
+        .late-student-item button:active {
+            transform: scale(0.95);
+            background-color: rgba(72, 212, 92, 0.8);
+        }
+
+        /* Checkmark styling */
+        .checkmark {
+            color: green;
+            font-size: 1.5em;
+            margin-left: 10px;
+        }
+
+        .absent-button {
+            background-color: #ff4747;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .absent-button:hover {
+            background-color: #e63946;
+        }
+
+        .absent-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Styling for the Start Button */
+        .start-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .start-btn:hover {
+            background-color: #45a049;
+        }
+
+        .start-btn:active {
+            transform: scale(0.95);
+            background-color: #388e3c;
+        }
+
+        /* Phase 1 completion message */
+        .completion-message {
+            font-size: 1.5em;
+            color: yellow;
+            margin-top: 20px;
+        }
+
+        #reMarkLateButton {
+            background-color: #ffcc00;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: none;
+            transition: transform 0.2s, background-color 0.3s ease;
+        }
+
+        #reMarkLateButton:hover {
+            background-color: #e5a900;
+        }
+
+        #reMarkLateButton:active {
+            transform: scale(0.95);
+        }
+        /* Styling for the Finalize List button */
+.finalize {
+    background-color: #080bf3; /* Green background */
+    color: white; /* White text */
+    border-radius: 10px;
+    padding: 15px 25px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.finalize:hover {
+    background-color: #080bf3; /* Darker green on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5);
+}
+
+.finalize:active {
+    transform: scale(0.95); /* Slightly shrink on click */
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#finalizedList {
+    border: 5px solid transparent;
+    border-image: linear-gradient(45deg, red, yellow, green, cyan, blue, magenta);
+    border-image-slice: 1;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
+
+#copyToClipboardButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#copyToClipboardButton:hover {
+    background-color: #45a049;
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- Phase 0: Welcome Screen -->
+    <div id="welcomeScreen" class="card" style="display: block;">
+        <h1>Welcome to Attendance Tracker</h1>
+        <button class="start-btn" onclick="startPhase1()">START</button>
+    </div>
+
+    <!-- Phase 1: Attendance Tracker -->
+    <div id="attendanceTracker" class="card" style="display: none;">
+        <h1>Attendance Tracker</h1>
+        <div id="currentName" class="name">
+            <div id="genderCircle" class="circle"></div>
+            <span id="nameDisplay">Name will appear here</span>
+        </div>
+        <div id="buttonsContainer" class="buttons">
+            <button id="presentButton" class="btn present" onclick="mark('Present')">Present</button>
+            <button id="lateButton" class="btn late" onclick="mark('Late')">Late</button>
+        </div>
+        <div class="date-time" id="dateTime"></div>
+    </div>
+
+    <!-- Phase 2: Re-Marking Late Students -->
+    <div id="reMarkLateButton" class="btn" onclick="startPhase2()" style="display: none;">
+        Re-Mark Late Students
+    </div>
+
+    <!-- Phase 3: Late Student Modification -->
+    <div id="attendanceRevised" class="card" style="display: none;">
+        <h1>Modify Late Status</h1>
+        <div class="late-students-list" id="lateStudentList"></div>
+        <div class="buttons">
+            <button class="btn" onclick="finalizePhase3()">Finish Modifications</button>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results" class="card results" style="display: none;">
+        <h2>Results</h2>
+        <textarea id="resultsArea" readonly></textarea>
+        <button class="btn-copy" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <button class="btn-redo" onclick="resetTracker()">Redo</button>
+        <!-- New Finalize List button added below -->
+        <button class="btn finalize" id="finalizeButton" onclick="finalizeList()">Finalize List</button>
+    </div>
+
+<!-- Phase 5 Finalized List -->
+<div id="finalizedList" style="display:none;">
+    <textarea id="finalizedText" rows="10" cols="50" readonly></textarea>
+    <button id="copyToClipboardButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+</div>
+<script>
+// Names of students and initial setup for attendance
+const names = [
+    { name: "Brent Dagbay", gender: "boy" },
+    { name: "Eithan Tablada", gender: "boy" },
+    { name: "Gian Carlo Canasa", gender: "boy" },
+    { name: "Hakeem Fabria", gender: "boy" },
+    { name: "Hundiaz Diaz", gender: "boy" },
+    { name: "John Ramos", gender: "boy" },
+    { name: "Kian Marlowe Libarios", gender: "boy" },
+    { name: "Kurt Serdan", gender: "boy" },
+    { name: "Mark Anderson", gender: "boy" },
+    { name: "Rechie Custodio", gender: "boy" },
+    { name: "Andree Nichole", gender: "girl" },
+    { name: "Chloe Sabine Salaum", gender: "girl" },
+    { name: "Christiana Sammy", gender: "girl" },
+    { name: "Dessa Marie Tumanday", gender: "girl" },
+    { name: "Irish Rubic", gender: "girl" },
+    { name: "Isis Madeleine Garces", gender: "girl" },
+    { name: "Kizel Eve Sacay", gender: "girl" },
+    { name: "Les Marchelle Barde", gender: "girl" },
+    { name: "Lyra Bajarla", gender: "girl" },
+    { name: "Mairiah Felicity Roa", gender: "girl" },
+    { name: "Manus Zi", gender: "girl" },
+    { name: "Michelle Marie Ballentos", gender: "girl" },
+    { name: "Sophia Gallana", gender: "girl" },
+    { name: "Trisha Villarin Ducante", gender: "girl" }
+];
+
+let attendance = [];
+let currentIndex = 0;
+let lateStudents = [];
+
+// Phase 1: Start attendance
+function startPhase1() {
+    document.getElementById("welcomeScreen").style.display = "none";
+    document.getElementById("attendanceTracker").style.display = "block";
+    showStudent();
+}
+
+function showStudent() {
+    const student = names[currentIndex];
+    document.getElementById("nameDisplay").textContent = student.name;
+    document.getElementById("genderCircle").className = "circle " + (student.gender === "boy" ? "boy" : "girl");
+    document.getElementById("dateTime").textContent = `Date: ${new Date().toLocaleString()}`;
+}
+
+// Mark student in Phase 1
+function mark(status) {
+    attendance.push({ name: names[currentIndex].name, status: status });
+    if (status === "Late") lateStudents.push(names[currentIndex].name);
+    currentIndex++;
+    if (currentIndex < names.length) {
+        showStudent();
+    } else {
+        document.getElementById("reMarkLateButton").style.display = "block"; // Show the "Re-Mark Late" button
+        document.getElementById("attendanceTracker").innerHTML += '<div class="completion-message">ALL STUDENTS ARE MARKED</div>';
+    }
+}
+
+// Start Phase 2: Re-mark Late Students
+function startPhase2() {
+    document.getElementById("attendanceTracker").style.display = "none";
+    document.getElementById("attendanceRevised").style.display = "block";
+    showLateStudentsList();
+}
+
+function showLateStudentsList() {
+    const lateList = lateStudents.map(name => {
+        const updated = attendance.find(student => student.name === name && student.status !== "Late");
+        return `<div class="late-student-item">
+                    <span>${name} ${updated ? '<span class="checkmark">✔</span>' : ''}</span>
+                    <button class="absent-button" onclick="markFinalStatus('${name}', 'Absent')">Absent</button>
+                </div>`;
+    }).join('');
+    document.getElementById("lateStudentList").innerHTML = lateList;
+}
+
+// Modify late student status
+function markFinalStatus(name, status) {
+    const studentIndex = attendance.findIndex(student => student.name === name);
+    if (studentIndex !== -1) {
+        attendance[studentIndex].status = status;
+        showLateStudentsList(); // Refresh the list after modifying status
+    }
+}
+
+// Finalize Phase 3
+function finalizePhase3() {
+    document.getElementById("attendanceRevised").style.display = "none";
+    document.getElementById("results").style.display = "block";
+    displayResults();
+}
+
+// Display results in Phase 4
+function displayResults() {
+    const resultText = attendance.map(item => `${item.name}: ${item.status}`).join("\n");
+    document.getElementById("resultsArea").textContent = resultText;
+}
+
+// Redo the process (refresh page)
+function resetPage() {
+    location.reload();
+}
+
+// Finalize the list and show Phase 5
+function finalizeList() {
+    document.getElementById("results").style.display = "none"; // Hide Phase 4
+    document.getElementById("finalizedList").style.display = "block"; // Show Phase 5
+    
+    const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString();
+    
+    // Format the list into the requested structure
+    let listText = `List: ${date}, ${time}\n\nPresent:\n`;
+    attendance.filter(a => a.status === "Present").forEach(b => listText += `${b.name}\n`);
+    
+    listText += `\nLate:\n`;
+    attendance.filter(a => a.status === "Late").forEach(b => listText += `${b.name}\n`);
+    
+    listText += `\nAbsent:\n`;
+    attendance.filter(a => a.status === "Absent").forEach(b => listText += `${b.name}\n`);
+    
+    listText += `\nBy: Hun, Diaz; // You can adjust this as needed`;
+    
+    // Set the text to the finalized clipboard area
+    document.getElementById("finalizedText").value = listText;
+}
+
+// Copy finalized list to clipboard
+function copyToClipboard() {
+    const resultsArea = document.getElementById("finalizedText");
+    resultsArea.select();
+    document.execCommand("copy");
+    
+    // Optionally, show a success message
+    alert("List copied to clipboard!");
+}
+</script>
+</body>
+</html>
