@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Are You Busy?</title>
+    <style>
+        @keyframes rgb-border {
+            0% { border-color: red; }
+            25% { border-color: blue; }
+            50% { border-color: green; }
+            75% { border-color: yellow; }
+            100% { border-color: red; }
+        }
+        
+        @keyframes button-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        body {
+            background: url('https://i.pinimg.com/736x/c6/b1/ff/c6b1ff118ab16a9d4fb1f81783f49beb.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            position: relative;
+            z-index: 1;
+            border: 6px solid red;
+            animation: rgb-border 3s infinite linear;
+        }
+        img {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button {
+            padding: 15px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            animation: button-bounce 2s infinite ease-in-out;
+        }
+        .no-btn {
+            background-color: red;
+            color: white;
+            font-size: 24px;
+            padding: 20px 30px;
+        }
+        .yes-btn {
+            background-color: green;
+            color: white;
+            font-size: 18px;
+            padding: 15px 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="gifImage" src="https://i.gifer.com/28eN.gif" alt="GIF Animation">
+        <h2 id="question">Are you busy?</h2>
+        <div class="btn-container">
+            <button class="no-btn" onclick="nextQuestion('no')">No</button>
+            <button class="yes-btn" onclick="nextQuestion('yes')">Yes</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            "Are u busy rn?🗣️🗣️", "Do you even like me??😕😕", "Fr??? No Homo??😳😳", "Do you know what date is it today?", "Isn't it Friday?😏",
+            "Sure lang ka okay ra way gifts??😓", "Kay I did not like it when wala koy nahatag😢", "This is my gift Btw", "Are you liking it so far?",
+            "Wanna know A LOT MORE ABOUT ME?", "U sure??🤨🤨", "You can close this whenever you want.😔", "Did you know im always happy when you talk to me??",
+            "Do you even feel happy whenever I do the same?", "Did you know im an overthinker?", "That's why it might look like I'm nonchalant",
+            "But I just don't want to hurt others when I'm too chalant", "Hence, nalimtan nanako how to be one.", "Pero IMO GIBALIK", "I don't hate it tho",
+            "Did you also notice that my social battery drains too fast?", "That's why I wanna sleep all the time.", "Thx for listening Maam Gwapa.",
+            "Honestly for me, U have a cutie patootie face", "WAHAHAHHAHAAHHAHAHA", "Fr tho with make-up or not.", "Since Grade 9 I think?",
+            "Naks ka tol, ginawa mo kong patay na patay sayo. 🥴🥴", "WAHAHAHAHAHAHAHAHA", "U know why I like you?", "Tbh it's from a TikTok vid but it feelt like its also about you.", "Ready?",
+        ];
+
+        const yesGifs = ["https://i.gifer.com/5IPv.gif", "https://i.gifer.com/19y9.gif", "https://i.gifer.com/y5.gif", "https://i.gifer.com/2iFb.gif", "https://i.gifer.com/9gc5.gif"];
+        const neutralGifs = ["https://i.gifer.com/28eN.gif", "https://i.gifer.com/VgJ.gif", "https://i.gifer.com/4m3s.gif", "https://i.gifer.com/Dtl.gif", "https://i.gifer.com/YQDs.gif"];
+        const noGifs = ["https://i.gifer.com/4A9v.gif", "https://i.gifer.com/PyTA.gif", "https://i.gifer.com/2iiE.gif"];
+
+        let questionIndex = 0;
+        function nextQuestion(answer) {
+            let questionText = document.getElementById("question");
+            let gifImage = document.getElementById("gifImage");
+            
+            if (answer === 'yes') {
+                questionIndex++;
+                if (questionIndex < questions.length) {
+                    questionText.textContent = questions[questionIndex];
+                    gifImage.src = yesGifs[Math.floor(Math.random() * yesGifs.length)];
+                } else {
+                    setTimeout(() => { window.location.href = "https://example.com"; }, 2000);
+                }
+            } else {
+                gifImage.src = noGifs[Math.floor(Math.random() * noGifs.length)];
+            }
+        }
+    </script>
+</body>
+</html>
