@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Image Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://images8.alphacoders.com/134/thumb-1920-1347727.png');
+            background-size: cover;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 10px;
+        }
+        .gallery img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.5s;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .gallery img:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.5);
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .lightbox img {
+            max-width: 95%;
+            max-height: 85%;
+            border-radius: 10px;
+            animation: fadeIn 0.5s;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        #falling {
+            color: #faf7fa;
+            text-shadow: 0 0 5px #080666, 0 0 10px #ff009d, 0 0 20px #d41b9d;
+        }
+        #Omsim {
+            color: #faf7fa;
+            text-shadow: 0 0 5px #080666, 0 0 10px #ff009d, 0 0 20px #d41b9d;
+        }
+        @media (max-width: 600px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 5px;
+            }
+            .gallery img {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 id="falling">💝✨Gallery of her, Falling💝✨</h1>
+    <h1 id="Omsim">Scrollable and Clickable!!</h1>
+    <div class="gallery" id="gallery"></div>
+    <div class="lightbox" id="lightbox">
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <script>
+        const imageLinks = [
+            "https://i.postimg.cc/4xDrZvNF/Screenshot-20250214-074640-Instagram.jpg",
+            "https://i.postimg.cc/qMYFXcnM/Screenshot-20250214-074610-Instagram.jpg",
+            "https://i.postimg.cc/fyjH9WC6/Screenshot-20250214-074655-Instagram.jpg",
+            "https://i.postimg.cc/4dJ2NWCw/Screenshot-20250214-074753-Instagram.jpg",
+            "https://i.postimg.cc/cCXRWvX4/Screenshot-20250214-074816-Instagram.jpg",
+            "https://i.postimg.cc/fyrV5m8X/Screenshot-20250214-074845-Instagram.jpg",
+            "https://i.postimg.cc/DzhBBxzF/Screenshot-20250214-074902-Instagram.jpg",
+            "https://i.postimg.cc/Mp9mmqg0/Screenshot-20250214-075019-Instagram.jpg",
+            "https://i.postimg.cc/8cGvV0qP/Screenshot-20250214-090339-Instagram.jpg"
+        ];
+
+        const gallery = document.getElementById('gallery');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        imageLinks.forEach(link => {
+            const img = document.createElement('img');
+            img.src = link;
+            img.addEventListener('click', () => {
+                lightboxImg.src = link;
+                lightbox.classList.add('active');
+            });
+            gallery.appendChild(img);
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
