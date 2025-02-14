@@ -15,8 +15,8 @@ body {
     no-repeat center center fixed;
     background-size: cover;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: stretch;
     flex-direction: column;
     margin: 0;
     padding: 20px;
@@ -77,10 +77,13 @@ h2 {
     font-weight: bold;
 }
 
+/* Fix for mobile background */
 @media (max-width: 768px) {
     body {
         background-attachment: scroll;
-        background-size: cover;
+        background-size: contain;  /* Prevents cutting */
+        background-position: top center;  /* Ensures full image is shown */
+        background-repeat: no-repeat;
     }
 
     .container {
